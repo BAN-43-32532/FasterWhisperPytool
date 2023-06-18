@@ -41,7 +41,7 @@ parser.add_argument('--zhpunc',
                     help='True or False (default): use Chinese punctuation (full-width) if the language is Chinese',
                     default=False)
 args = parser.parse_args()
-audios, interval, outdir, format, model, lang, zhpunc = args.audio_path, args.interval, args.outdir, args.format, args.model, args.lang, args.zhpunc
+audios, interval, outdir, format, model, lang, zhpunc = args.audio_path, args.interval, args.outdir, args.format, args.model, args.language, args.zhpunc
 if format[0] != '.':
     format = '.' + format
 
