@@ -134,9 +134,12 @@ for audio in audios:
         output = path.join(outdir, base + format)
     f = open(output, "w", encoding="utf-8")
     segments, info = model.transcribe(
-        audio=audio, word_timestamps=True, vad_filter=True, language=language
+        audio=audio,
+        language=language,
+        word_timestamps=True,
+        vad_filter=True,
+        initial_prompt="Hello, world. 请使用标点，谢谢。",
     )
-    lang = info.language
     stamp = -interval
     print(f"transcribing {audio}")
     f.writelines(f"--Transcription of {audio}--")
@@ -148,7 +151,7 @@ for audio in audios:
         if int(segment.start) >= stamp + interval:
             stamp = int(segment.start) // interval * interval
             f.writelines(f"\n{sec2time(stamp)}\n")
-        if lang == "zh" and zhtype:
+        if zhtype and info.language == "zh":
             f.writelines(map(zhtypeset, segment.text))
         else:
             f.writelines(segment.text)
