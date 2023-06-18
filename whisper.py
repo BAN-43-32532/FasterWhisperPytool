@@ -50,7 +50,7 @@ if format[0] != '.':
     format = '.' + format
 
 quote = [None,]
-def zh_punc(char, quote):
+def zh_punc(char):
     match char:
         case '(':   return '（'
         case ')':   return '）'
