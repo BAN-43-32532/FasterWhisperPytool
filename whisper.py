@@ -104,7 +104,7 @@ for audio in audios:
             f.writelines(map(zh_punc, segment.text))
         else:
             f.writelines(segment.text)
-        if segment.text[-1] not in '"\'.。,，!！?？:：”)]}、':
+        if segment.text[-1] not in '"\'.。,，!！?？:：’”)）]】}、':
             f.writelines(' ')
     print(f'\ncomplete')
     f.close()
