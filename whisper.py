@@ -36,30 +36,22 @@ parser.add_argument('-l', '--language',
                     type=str,
                     help='set language (default: auto-detected)',
                     default=None)
-parser.add_argument('--zhpunc',
+parser.add_argument('-z', '--zhpunc',
                     type=bool,
                     help='True or False (default): use Chinese punctuation (full-width) if the language is Chinese',
                     default=False)
+parser.add_argument('-d', '--device',
+                    type=str,
+                    help='device for computation: cpu, cuda, auto (default)',
+                    default='auto')
 args = parser.parse_args()
-audios, interval, outdir, format, model, lang, zhpunc = args.audio_path, args.interval, args.outdir, args.format, args.model, args.language, args.zhpunc
+audios, interval, outdir, format, model, lang, zhpunc, device = args.audio_path, args.interval, args.outdir, args.format, args.model, args.language, args.zhpunc, args.device
 if format[0] != '.':
     format = '.' + format
 
 quote = [None,]
 def zh_punc(char):
     match char:
-        case '"':
-            if quote[-1] == '"':
-                quote = quote[:-1]
-                return '”'
-            quote += ['"']
-            return '“'
-        case "'":
-            if quote[-1] == "'":
-                quote = quote[:-1]
-                return '’'
-            quote += ["'"]
-            return '‘'
         case '(':   return '（'
         case ')':   return '）'
         case '[':   return '【'
@@ -69,12 +61,24 @@ def zh_punc(char):
         case '!':   return '！'
         case '?':   return '？'
         case ':':   return '：'
+        case '"':
+            if quote[-1] == '"':
+                list.pop(quote)
+                return '”'
+            quote += ['"']
+            return '“'
+        case "'":
+            if quote[-1] == "'":
+                list.pop(quote)
+                return '’'
+            quote += ["'"]
+            return '‘'
         case _:     return char
 
 for audio in audios:
     start = time.perf_counter()
     model = WhisperModel(model_size_or_path=model,
-                        device='cuda',
+                        device=device,
                         compute_type='int8_float16')
     audio = audio.strip('\'"')
     dir, file = path.split(audio)
