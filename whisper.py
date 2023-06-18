@@ -50,7 +50,7 @@ if format[0] != '.':
     format = '.' + format
 
 quote = [None,]
-def zh_punc(char):
+def zh_punc(char, quote):
     match char:
         case '(':   return '（'
         case ')':   return '）'
@@ -65,13 +65,13 @@ def zh_punc(char):
             if quote[-1] == '"':
                 list.pop(quote)
                 return '”'
-            quote += ['"']
+            list.append(quote, '"')
             return '“'
         case "'":
             if quote[-1] == "'":
                 list.pop(quote)
                 return '’'
-            quote += ["'"]
+            list.append(quote, "'")
             return '‘'
         case _:     return char
 
@@ -95,6 +95,7 @@ for audio in audios:
     lang = info.language
     stamp = -interval
     print(f'transcribing {audio}')
+    f.writelines(f'--Transcription of {audio}--')
     for segment in segments:
         print(f'\raudio: {sec2time(segment.end)}, time used: {sec2time(time.perf_counter() - start)}', end='')
         if int(segment.start) >= stamp + interval:
