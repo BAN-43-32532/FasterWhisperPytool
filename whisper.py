@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 from faster_whisper import WhisperModel
 import time
@@ -87,7 +86,7 @@ for audio in audios:
         output = path.join(dir, base + format)
     else:
         output = path.join(outdir, base + format)
-    f = open(output,'w')
+    f = open(output, 'w', encoding='utf-8')
     segments, info = model.transcribe(audio=audio, 
                                       word_timestamps=True, 
                                       vad_filter=True,
