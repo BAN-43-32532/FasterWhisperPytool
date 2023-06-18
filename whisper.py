@@ -44,7 +44,7 @@ parser.add_argument('-d', '--device',
                     help='device for computation: cpu, cuda, auto (default)',
                     default='auto')
 args = parser.parse_args()
-audios, interval, outdir, format, model, lang, zhpunc, device = args.audio_path, args.interval, args.outdir, args.format, args.model, args.language, args.zhpunc, args.device
+audios, interval, outdir, format, model_size, lang, zhpunc, device = args.audio_path, args.interval, args.outdir, args.format, args.model, args.language, args.zhpunc, args.device
 if format[0] != '.':
     format = '.' + format
 
@@ -76,7 +76,7 @@ def zh_punc(char):
 
 for audio in audios:
     start = time.perf_counter()
-    model = WhisperModel(model_size_or_path=model,
+    model = WhisperModel(model_size_or_path=model_size,
                         device=device,
                         compute_type='int8_float16')
     audio = audio.strip('\'"')
