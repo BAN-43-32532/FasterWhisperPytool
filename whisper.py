@@ -48,34 +48,33 @@ audios, interval, outdir, format, model_size, lang, zhpunc, device = args.audio_
 if format[0] != '.':
     format = '.' + format
 
-quote = [None,]
-def zh_punc(char):
-    match char:
-        case '(':   return '（'
-        case ')':   return '）'
-        case '[':   return '【'
-        case ']':   return '】'
-        case ',':   return '，'
-        case '.':   return '。'
-        case '!':   return '！'
-        case '?':   return '？'
-        case ':':   return '：'
-        case '"':
-            if quote[-1] == '"':
-                list.pop(quote)
-                return '”'
-            list.append(quote, '"')
-            return '“'
-        case "'":
-            if quote[-1] == "'":
-                list.pop(quote)
-                return '’'
-            list.append(quote, "'")
-            return '‘'
-        case _:     return char
-
 for audio in audios:
     start = time.perf_counter()
+    quote = [None,]
+    def zh_punc(char):
+        match char:
+            case '(':   return '（'
+            case ')':   return '）'
+            case '[':   return '【'
+            case ']':   return '】'
+            case ',':   return '，'
+            case '.':   return '。'
+            case '!':   return '！'
+            case '?':   return '？'
+            case ':':   return '：'
+            case '"':
+                if quote[-1] == '"':
+                    list.pop(quote)
+                    return '”'
+                list.append(quote, '"')
+                return '“'
+            case "'":
+                if quote[-1] == "'":
+                    list.pop(quote)
+                    return '’'
+                list.append(quote, "'")
+                return '‘'
+            case _:     return char
     model = WhisperModel(model_size_or_path=model_size,
                         device=device,
                         compute_type='int8_float16')
