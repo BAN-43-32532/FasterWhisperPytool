@@ -45,7 +45,7 @@ audios, interval, outdir, format, model, lang, zhpunc = args.audio_path, args.in
 if format[0] != '.':
     format = '.' + format
 
-quote = []
+quote = [None,]
 def zh_punc(char):
     match char:
         case '"':
