@@ -138,7 +138,6 @@ for audio in audios:
         language=language,
         word_timestamps=True,
         vad_filter=True,
-        initial_prompt="Hello, world. 请使用标点，谢谢。",
     )
     stamp = -interval
     print(f"transcribing {audio}")
