@@ -1,5 +1,5 @@
 # FasterWhisperPytool
-A tiny python tool that uses faster_whisper
+A tiny python tool using python module faster_whisper
 
 Basic usage:
 
